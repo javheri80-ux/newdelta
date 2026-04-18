@@ -182,6 +182,26 @@
             .conn-grid { grid-template-columns: 1fr; }
             .action-buttons a { font-size: 0.75rem; padding: 12px 2px;}
         }
+
+        /* =========================================
+           LIGHTBOX STYLES
+           ========================================= */
+        .lightbox-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.95); z-index: 100000;
+            display: none; justify-content: center; align-items: center;
+            backdrop-filter: blur(5px);
+        }
+        .lightbox-overlay.show { display: flex; }
+        .lightbox-content { max-width: 90%; max-height: 80%; border: 4px solid white; box-shadow: 0 0 30px rgba(0,0,0,0.5); object-fit: contain; }
+        .lb-close { position: absolute; top: 20px; right: 30px; color: white; font-size: 45px; cursor: pointer; font-weight: bold; z-index: 100001; }
+        .lb-nav { position: absolute; top: 50%; width: 100%; display: flex; justify-content: space-between; padding: 0 40px; transform: translateY(-50%); pointer-events: none; }
+        .lb-btn { color: white; font-size: 60px; cursor: pointer; pointer-events: auto; background: none; border: none; transition: 0.3s; padding: 15px; text-shadow: 0 0 10px rgba(0,0,0,0.8); }
+        .lb-btn:hover { color: var(--tan-bg); transform: scale(1.1); }
+        @media (max-width: 768px) {
+            .lb-btn { font-size: 40px; padding: 10px; }
+            .lb-nav { padding: 0 10px; }
+        }
     </style>
 
     <!-- JS Logic -->
@@ -271,6 +291,59 @@
                     e.preventDefault();
                     popup.classList.add('show');
                 });
+            });
+
+            // --- Lightbox Logic ---
+            const lightbox = document.getElementById('lightbox');
+            const lbImg = document.getElementById('lb-img');
+            const closeLb = document.getElementById('close-lb');
+            const prevLb = document.getElementById('prev-lb');
+            const nextLb = document.getElementById('next-lb');
+
+            let galleryImages = [];
+            let currentIndex = 0;
+
+            const updateGalleryImages = () => {
+                const galleryImgs = document.querySelectorAll('#gallery img, #plans img');
+                galleryImages = Array.from(galleryImgs).map(img => img.src).filter(src => src && src.trim() !== "");
+            };
+
+            const openLightbox = (index) => {
+                currentIndex = index;
+                lbImg.src = galleryImages[currentIndex];
+                lightbox.classList.add('show');
+                document.body.style.overflow = 'hidden';
+            };
+
+            const navigate = (step) => {
+                currentIndex = (currentIndex + step + galleryImages.length) % galleryImages.length;
+                lbImg.src = galleryImages[currentIndex];
+            };
+
+            document.addEventListener('click', (e) => {
+                const clickedImg = e.target.closest('#gallery img, #plans img');
+                if (clickedImg) {
+                    updateGalleryImages();
+                    const src = clickedImg.src;
+                    const index = galleryImages.indexOf(src);
+                    if (index !== -1) openLightbox(index);
+                }
+            });
+
+            closeLb.onclick = () => {
+                lightbox.classList.remove('show');
+                document.body.style.overflow = '';
+            };
+            
+            lightbox.onclick = (e) => { if (e.target === lightbox) closeLb.onclick(); };
+            prevLb.onclick = (e) => { e.stopPropagation(); navigate(-1); };
+            nextLb.onclick = (e) => { e.stopPropagation(); navigate(1); };
+
+            document.addEventListener('keydown', (e) => {
+                if (!lightbox.classList.contains('show')) return;
+                if (e.key === 'Escape') closeLb.onclick();
+                if (e.key === 'ArrowLeft') navigate(-1);
+                if (e.key === 'ArrowRight') navigate(1);
             });
         });
     </script>
@@ -522,6 +595,16 @@
                 WhatsApp
             </a>
         </div>
+    </div>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="lightbox-overlay">
+        <span class="lb-close" id="close-lb">&times;</span>
+        <div class="lb-nav">
+            <button class="lb-btn" id="prev-lb">&#10094;</button>
+            <button class="lb-btn" id="next-lb">&#10095;</button>
+        </div>
+        <img class="lightbox-content" id="lb-img" src="" alt="Gallery Image">
     </div>
 
 </body>
