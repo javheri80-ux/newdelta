@@ -952,8 +952,8 @@
                 if (e.key === 'ArrowRight') navigate(1);
             });
 
-            // 4. AJAX Form Submission → Google Sheets
-            // ⚠️ Step 1: REPLACE with your Google Apps Script Web App URL (same URL for ALL projects)
+            // 4. AJAX Form Submission → Google Sheets (GET method — CORS fix)
+            // ⚠️ Step 1: Google Apps Script Web App URL (same for ALL projects)
             const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbybpYmnerQ-BmqdWC0LUF40P09eGxaCgGADhPIM-FquIO4GTR0-oS42DCV6JP5ll_Gz/exec";
 
             // ⚠️ Step 2: CHANGE this for each cloned project — yahi naam Google Sheet mein dikhega
@@ -969,27 +969,22 @@
                 submitBtn.disabled = true;
                 submitBtn.innerText = "Sending...";
 
-                // Build JSON payload from form fields
-                const payload = {
+                // Build URL params (GET method — no CORS issues with Google Script)
+                const params = new URLSearchParams({
                     project_name: PROJECT_NAME,
-                    name: form.querySelector('[name="name"]') ? form.querySelector('[name="name"]').value : "",
-                    phone: form.querySelector('[name="phone"]') ? form.querySelector('[name="phone"]').value : "",
-                    email: form.querySelector('[name="email"]') ? form.querySelector('[name="email"]').value : "",
+                    name:   form.querySelector('[name="name"]')   ? form.querySelector('[name="name"]').value   : "",
+                    phone:  form.querySelector('[name="phone"]')  ? form.querySelector('[name="phone"]').value  : "",
+                    email:  form.querySelector('[name="email"]')  ? form.querySelector('[name="email"]').value  : "",
                     config: form.querySelector('[name="config"]') ? form.querySelector('[name="config"]').value : "",
                     source: window.location.hostname
-                };
+                });
 
-                fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                })
+                fetch(GOOGLE_SCRIPT_URL + "?" + params.toString())
                     .then(response => response.json())
                     .then(data => {
                         if (data.status === 'success') {
                             alert("✅ Thank you! Your enquiry has been received. We will contact you shortly.");
                             form.reset();
-                            // Close popup if it was a popup form
                             const popup = document.getElementById('auto-popup');
                             if (popup) popup.classList.remove('show');
                         } else {
