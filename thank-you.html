@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You - Delta Greenville</title>
+    <style>
+        :root {
+            --primary-green: #0a4d2e;
+            --light-green: #d4efdf; 
+            --tan-bg: #e5d8b0; 
+            --white: #ffffff;
+            --dark-text: #222222;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-green);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: var(--dark-text);
+            text-align: center;
+        }
+
+        .thank-you-card {
+            background: var(--white);
+            padding: 50px 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 500px;
+            width: 90%;
+            border-bottom: 8px solid var(--primary-green);
+        }
+
+        .icon {
+            font-size: 60px;
+            color: var(--primary-green);
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: var(--primary-green);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-size: 2rem;
+        }
+
+        p {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-green);
+            color: var(--white);
+            padding: 15px 40px;
+            text-decoration: none;
+            border-radius: 5px;
+            text-transform: uppercase;
+            font-weight: bold;
+            transition: 0.3s;
+            box-shadow: 0 4px 10px rgba(10, 77, 46, 0.3);
+        }
+
+        .btn:hover {
+            background-color: #1a7649;
+            transform: translateY(-2px);
+        }
+
+        .logo {
+            height: 50px;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="thank-you-card">
+        <div class="icon">✓</div>
+        <h1>Thank You!</h1>
+        <p>Your enquiry has been received successfully. <br> Our property expert will get in touch with you shortly.</p>
+        <a href="index.html" class="btn">Back to Home</a>
+    </div>
+
+</body>
+</html>

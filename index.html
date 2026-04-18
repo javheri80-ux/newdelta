@@ -441,11 +441,11 @@
         <div class="form-container">
             <h2 class="section-title" style="color: var(--primary-green);">Enquire Now</h2>
             <p style="margin-bottom: 20px; color: var(--gray-text);">Drop your details below and our property expert will contact you shortly.</p>
-            <form action="#">
-                <input type="text" placeholder="Full Name *" required>
-                <input type="tel" placeholder="Mobile Number *" required>
-                <input type="email" placeholder="Email Address">
-                <select required>
+            <form action="contact.php" method="POST">
+                <input type="text" name="name" placeholder="Full Name *" required>
+                <input type="tel" name="phone" placeholder="Mobile Number *" required>
+                <input type="email" name="email" placeholder="Email Address">
+                <select name="config" required>
                     <option value="">Interested Configuration</option>
                     <option value="2bhk">2 BHK</option>
                     <option value="3bhk">3 BHK</option>
@@ -474,9 +474,9 @@
             </div>
             <div class="popup-body">
                 <p>Register now to get exclusive access to Pricing & Floor Plans before everyone else!</p>
-                <form action="#">
-                    <input type="text" placeholder="Your Name *" required>
-                    <input type="tel" placeholder="Mobile Number *" required>
+                <form action="contact.php" method="POST">
+                    <input type="text" name="name" placeholder="Your Name *" required>
+                    <input type="tel" name="phone" placeholder="Mobile Number *" required>
                     <button type="submit" class="popup-btn">Unlock Details Now</button>
                 </form>
             </div>
